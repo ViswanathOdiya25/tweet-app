@@ -1,7 +1,7 @@
 import User from "../models/user.model.js";
 import Post from "../models/post.model.js";
 import { v2 as cloudinary } from "cloudinary";
-import router from "../routes/auth.routes.js";
+import router from "../routes/auth.route.js";
 import Notification from "../models/notification.model.js";
 
 export const createPost = async (req, res) => {
