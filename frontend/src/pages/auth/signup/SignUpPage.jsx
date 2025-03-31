@@ -7,6 +7,8 @@ import { MdOutlineMail } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { MdPassword } from "react-icons/md";
 import { MdDriveFileRenameOutline } from "react-icons/md";
+import toast from "react-hot-toast";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const SignUpPage = () => {
   const [formData, setFormData] = useState({
@@ -16,16 +18,45 @@ const SignUpPage = () => {
     password: "",
   });
 
+  const { mutate, isError, isPending, error } = useMutation({
+    mutationFn: async ({ email, username, fullName, password }) => {
+      try {
+        const res = await fetch("api/auth/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, username, fullName, password }),
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || "Something went wrong!");
+        }
+        return data;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    },
+    onSuccess: () => {
+
+      toast.success("Account created successfully! Please log in.");
+      // Redirect to login page or perform any other action
+      // queryClient.invalidateQueries({ queryKey: ["authUser"] });
+    },
+  });
+
   const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData);
+    e.preventDefault(); //page won't reload
+    mutate(formData);
   };
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const isError = false;
+  // Removed redundant declaration of isError
 
   return (
     <div className='max-w-screen-xl mx-auto flex h-screen px-10'>
@@ -82,8 +113,8 @@ const SignUpPage = () => {
               value={formData.password}
             />
           </label>
-          <button className='btn rounded-full btn-primary text-white'>Sign up</button>
-          {isError && <p className='text-red-500'>Something went wrong</p>}
+          <button className='btn rounded-full btn-primary text-white'>{isPending ? "Loading..." : "Sign Up"}</button>
+          {isError && <p className='text-red-500'> {error.message}</p>}
         </form>
         <div className='flex flex-col lg:w-2/3 gap-2 mt-4'>
           <p className='text-white text-lg'>Already have an account?</p>
