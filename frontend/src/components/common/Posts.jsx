@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 
-const Posts = ({ feedType }) => {
+const Posts = ({ feedType, username }) => {
 
     const getPostEndPoint = () => {
         switch (feedType) {
