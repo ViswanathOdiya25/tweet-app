@@ -6,7 +6,7 @@ import XSvg from "../../../components/svgs/X";
 import { MdOutlineMail } from "react-icons/md";
 import { MdPassword } from "react-icons/md";
 import { useMutation } from "@tanstack/react-query";
-// import { toast } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
 // import { useQuery } from "@tanstack/react-query";
 
