@@ -17,9 +17,9 @@ const Sidebar = () => {
         mutationFn: async () => {
             try {
                 const res = await fetch("/api/auth/logout", {
-                    methid: "POST",
+                    method: "POST",
 
-                })
+                });
                 const data = await res.json();
                 if (!res.ok) {
                     throw new Error(data.error || "Something went wrong!");
@@ -35,8 +35,8 @@ const Sidebar = () => {
         },
         onError: () => {
             toast.error("Logout failed!");
-        }
-    })
+        },
+    });
     const { data: authUser } = useQuery({ queryKey: ["authUser"] });
 
     return (

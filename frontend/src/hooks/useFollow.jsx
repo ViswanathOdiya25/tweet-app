@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import toast from 'react-hot-toast';
-
+import { useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 const useFollow = () => {
     const queryClient = useQueryClient();
 
