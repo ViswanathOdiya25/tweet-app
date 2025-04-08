@@ -14,7 +14,7 @@ const useFollow = () => {
 
                 const data = await res.jsonn();
                 if (!res.ok) {
-                    throw new Error(data.message || 'Something is wrong!');
+                    throw new Error(data.error || 'Something is wrong!');
                 }
                 return;
             } catch (error) {
