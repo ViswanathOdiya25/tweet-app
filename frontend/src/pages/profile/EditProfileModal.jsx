@@ -4,7 +4,6 @@ import { useQueryClient } from "@tanstack/react-query";
 
 
 const EditProfileModal = (authUser) => {
-    const queryClient = useQueryClient();
     const [formData, setFormData] = useState({
         fullName: "",
         username: "",
@@ -33,7 +32,7 @@ const EditProfileModal = (authUser) => {
                 currentPassword: "",
             });
         }
-    }, [authUser])
+    }, [authUser]);
 
     return (
         <>

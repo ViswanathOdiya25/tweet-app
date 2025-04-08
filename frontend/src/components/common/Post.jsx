@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import LoadingSpinner from "./LoadingSpinner";
 import { formatPostDate } from "../../utils/date";
+import toast from "react-hot-toast";
+
 
 const Post = ({ post }) => {
     const [comment, setComment] = useState("");
@@ -35,7 +37,7 @@ const Post = ({ post }) => {
             try {
                 const res = await fetch(`/api/posts/${post._id}`, {
                     method: "DELETE",
-                })
+                });
                 const data = await res.json();
 
                 if (!res.ok) {
@@ -72,11 +74,11 @@ const Post = ({ post }) => {
             toast.success("Post liked successfully");
             // this is not the best UX, bc it will refetch all the posts.
             // queryClient.invalidateQueries({ queryKey: ["posts"] });
-            // instead, upadate the cache directly for the post.
+            // instead, update the cache directly for the post.
 
             queryClient.setQueryData(["posts"], (oldData) => {
                 return oldData.map(p => {
-                    if (p._id === post.id) {
+                    if (p._id === post._id) {
                         return { ...p, likes: updatedLikes };
 
                     }
@@ -86,8 +88,8 @@ const Post = ({ post }) => {
         },
         onError: (error) => {
             toast.error(error.message);
-        }
-    })
+        },
+    });
 
     const { mutate: commentPost, isPending: isCommenting } = useMutation({
         mutationFn: async () => {
@@ -155,7 +157,7 @@ const Post = ({ post }) => {
                         </span>
                         {isMyPost && (
                             <span className='flex justify-end flex-1'>
-                                {!isDeleting && <FaTrash className='cursor-pointer hover:text-red-500' onClick={handleDeletePost} />}
+                                {!isDeleting && (<FaTrash className='cursor-pointer hover:text-red-500' onClick={handleDeletePost} />)}
 
                                 {isDeleting && (
                                     <LoadingSpinner size="sm" />
