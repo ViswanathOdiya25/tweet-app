@@ -31,7 +31,7 @@ const Sidebar = () => {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["authUser"] });
-            // toast.success("Logout successful!");
+            toast.success("Logout successful!");
         },
         onError: () => {
             toast.error("Logout failed!");
@@ -102,6 +102,7 @@ const Sidebar = () => {
                                 onClick={(e) => {
                                     e.preventDefault();
                                     logout();
+                                    window.location.href = "/login";
                                 }}
                             />
 
