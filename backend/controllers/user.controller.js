@@ -26,7 +26,7 @@ export const followUnfollowUser = async (req, res) => {
             return res.status(400).json({ error: "You can't follow/unfollow yourself" });
         }
 
-        if (!userToModify || !currentUser) return res.status(404).json({ error: "User not found" });
+        if (!userToModify || !currentUser) return res.status(400).json({ error: "User not found" });
 
         const isFollowing = currentUser.following.includes(id);
 
@@ -55,7 +55,7 @@ export const followUnfollowUser = async (req, res) => {
         }
 
     } catch (error) {
-        console.log("Error in followUnfollowUser", error.message);
+        console.log("Error in followUnfollowUser:", error.message);
         res.status(500).json({ error: error.message });
     }
 };
